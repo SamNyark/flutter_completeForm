@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_forms/screens/signUp.dart';
+import 'package:flutter_forms/widgets/forgetPassword.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -169,7 +170,9 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            popUpDialog(context);
+                          },
                           child: Container(
                               child: Text(
                             "forget password",
