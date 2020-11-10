@@ -16,6 +16,14 @@ void popUpDialog(BuildContext context) {
           ),
           actions: [
             FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "cancel",
+                  style: TextStyle(color: Colors.blue, fontSize: 17),
+                )),
+            FlatButton(
                 onPressed: () {},
                 child: Text(
                   "Send",
