@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_forms/screens/loginPage.dart';
+import 'package:provider/provider.dart';
+import '../authentication_service.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class _SignUpState extends State<SignUp> {
 
   String _email, _password, _phone, _username;
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _toggle() {
     setState(() {
@@ -37,8 +39,7 @@ class _SignUpState extends State<SignUp> {
               IconButton(
                 padding: EdgeInsets.only(right: 350),
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  Navigator.of(context).pop();
                 },
                 iconSize: 30,
                 icon: Icon(
@@ -99,12 +100,12 @@ class _SignUpState extends State<SignUp> {
                                     width: 3,
                                     style: BorderStyle.solid,
                                     color: Colors.red[400])),
-                             focusedErrorBorder:  OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  width: 3,
-                                  style: BorderStyle.solid,
-                                  color: Colors.red[400])),
+                                    width: 3,
+                                    style: BorderStyle.solid,
+                                    color: Colors.red[400])),
                           ),
                         ),
                         SizedBox(
@@ -149,12 +150,12 @@ class _SignUpState extends State<SignUp> {
                                     width: 3,
                                     style: BorderStyle.solid,
                                     color: Colors.red[400])),
-                             focusedErrorBorder:  OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  width: 3,
-                                  style: BorderStyle.solid,
-                                  color: Colors.red[400])),        
+                                    width: 3,
+                                    style: BorderStyle.solid,
+                                    color: Colors.red[400])),
                           ),
                         ),
                         SizedBox(
@@ -198,12 +199,12 @@ class _SignUpState extends State<SignUp> {
                                     width: 3,
                                     style: BorderStyle.solid,
                                     color: Colors.red[400])),
-                             focusedErrorBorder:  OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  width: 3,
-                                  style: BorderStyle.solid,
-                                  color: Colors.red[400])),        
+                                    width: 3,
+                                    style: BorderStyle.solid,
+                                    color: Colors.red[400])),
                           ),
                         ),
                         SizedBox(
@@ -259,12 +260,12 @@ class _SignUpState extends State<SignUp> {
                                     width: 3,
                                     style: BorderStyle.solid,
                                     color: Colors.red[400])),
-                             focusedErrorBorder:  OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  width: 3,
-                                  style: BorderStyle.solid,
-                                  color: Colors.red[400])),        
+                                    width: 3,
+                                    style: BorderStyle.solid,
+                                    color: Colors.red[400])),
                           ),
                         ),
                         SizedBox(
@@ -273,17 +274,42 @@ class _SignUpState extends State<SignUp> {
                         SizedBox(
                             height: 50,
                             width: 350,
-                            child: RaisedButton(
-                              color: Colors.blue,
-                              onPressed: () {
-                                signup();
-                              },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25)),
-                              child: Text(
-                                "sign up",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
+                            child: Builder(
+                              builder: (context) => RaisedButton(
+                                color: Colors.blue,
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                  }
+                                  context.read<AuthenticationService>().signUp(
+                                      email: _email, password: _password);
+                                        Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Row(
+                                        children: [
+                                      SizedBox(
+                                      width: 100,
+                                    ),
+                                    Icon(Icons.error_rounded),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(AuthenticationService.errorMessage,
+                                        style: TextStyle(fontSize: 18)),
+                                  ],
+                                ),
+                                backgroundColor: Colors.red,
+                                padding: EdgeInsets.all(8),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15)))));                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25)),
+                                child: Text(
+                                  "sign up",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
                               ),
                             ))
                       ],
@@ -294,11 +320,5 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
-  }
-
-  void signup() {
-    if (!_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-    }
   }
 }

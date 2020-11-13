@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "64481321567",
+    "firebase_url": "https://complete-form-validation.firebaseio.com",
+    "project_id": "complete-form-validation",
+    "storage_bucket": "complete-form-validation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64481321567:android:01e424699c69537ae131ea",
+        "android_client_info": {
+          "package_name": "com.example.flutter_forms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64481321567-q2rfe5mjr66ng6vocnj09d7go8omj1e3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_forms",
+            "certificate_hash": "6accbe08c85be926376d1e5da4dad7df49434fc8"
+          }
+        },
+        {
+          "client_id": "64481321567-iergd0umutb1brb5v2prod5tqcmbdont.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6nOCoQIFV6rbw8ioAd7XbCzT-HVRIfsw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64481321567-iergd0umutb1brb5v2prod5tqcmbdont.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

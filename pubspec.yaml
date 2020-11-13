@@ -23,6 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  firebase_auth: ^0.18.3
+  firebase_core: ^0.5.2 
+  firebase_analytics: ^5.0.2
+
+  provider: ^4.3.2+2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -33,10 +39,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
 
   # The following line ensures that the Material Icons font is

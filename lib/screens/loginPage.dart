@@ -1,8 +1,10 @@
 import 'dart:ui';
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_forms/screens/signUp.dart';
 import 'package:flutter_forms/widgets/forgetPassword.dart';
+
+import '../authentication_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,8 +17,11 @@ class _LoginPageState extends State<LoginPage> {
   bool _showPassword = true;
 
   String _email, _password;
+  String _error;
+  String _incorrectError = "Incorrect password";
+  String _userNotFoundError = "No user with this credentials";
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void toggle() {
     setState(() {
@@ -71,36 +76,36 @@ class _LoginPageState extends State<LoginPage> {
                         _email = input;
                       },
                       decoration: InputDecoration(
-                         prefixIcon: Icon(
-                            Icons.email,
-                              color: Colors.grey[700],
-                             ),
-                            labelText: "Email",
-                            labelStyle: TextStyle(color: Colors.black),
-                         enabledBorder: OutlineInputBorder(
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.grey[700],
+                        ),
+                        labelText: "Email",
+                        labelStyle: TextStyle(color: Colors.black),
+                        enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(
                                 width: 3,
                                 style: BorderStyle.solid,
-                                color: Colors.blue)),      
+                                color: Colors.blue)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(
                                 width: 3,
                                 style: BorderStyle.solid,
-                                color: Colors.white)), 
+                                color: Colors.white)),
                         errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(
                                 width: 3,
                                 style: BorderStyle.solid,
                                 color: Colors.red[400])),
-                          focusedErrorBorder:  OutlineInputBorder(
+                        focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(
                                 width: 3,
                                 style: BorderStyle.solid,
-                                color: Colors.red[400])),     
+                                color: Colors.red[400])),
                       ),
                     ),
                     SizedBox(
@@ -155,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                                 width: 3,
                                 style: BorderStyle.solid,
                                 color: Colors.red[400])),
-                        focusedErrorBorder:  OutlineInputBorder(
+                        focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(
                                 width: 3,
@@ -185,19 +190,47 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 50,
                       width: double.infinity,
-                      child: RaisedButton(
-                        color: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                      child: Builder(
+                        builder: (context) => RaisedButton(
+                          color: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                            }
+                            context.read<AuthenticationService>().signIn(
+                                email: _email,
+                                password: _password,
+                                );
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                                content: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 100,
+                                    ),
+                                    Icon(Icons.error_rounded),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(AuthenticationService.errorMessage,
+                                        style: TextStyle(fontSize: 18)),
+                                  ],
+                                ),
+                                backgroundColor: Colors.red,
+                                padding: EdgeInsets.all(8),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15)))));
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          splashColor: Colors.red,
                         ),
-                        onPressed: () {
-                          login();
-                        },
-                        child: Text(
-                          "Login",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                        splashColor: Colors.red,
                       ),
                     ),
                     SizedBox(height: 20),
@@ -216,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(25)),
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
+                              Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) => SignUp()));
                             },
@@ -230,11 +263,5 @@ class _LoginPageState extends State<LoginPage> {
                 ))),
       ),
     );
-  }
-
-  void login() {
-    if (!_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-    }
   }
 }
