@@ -26,7 +26,7 @@ void popUpDialog(BuildContext context) {
             FlatButton(
                 onPressed: () {},
                 child: Text(
-                  "Send",
+                  "Dont Send",
                   style: TextStyle(color: Colors.blue, fontSize: 17),
                 ))
           ],
